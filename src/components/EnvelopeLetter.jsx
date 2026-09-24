@@ -51,6 +51,114 @@ const LETTER_SECTIONS = [
   },
 ];
 
+// 11 Aesthetic Scattered Memory Photos filling the entire space between letter & button
+const AESTHETIC_MEMORY_PHOTOS = [
+  // Tier 1: Upper Row (4 photos spread across width)
+  {
+    id: 'l1',
+    src: '/images/l1.jpg',
+    altSrc: '/l1.jpg',
+    fallback: '/images/M1.jpg',
+    tilt: '-rotate-6 -translate-y-1',
+    tapeStyle: 'bg-amber-100/80 border-amber-300/50 -rotate-3',
+    label: 'Sister Love',
+  },
+  {
+    id: 'l2',
+    src: '/images/l2.jpg',
+    altSrc: '/l2.jpg',
+    fallback: '/images/gallery-1.jpg',
+    tilt: 'rotate-4 translate-y-1',
+    tapeStyle: 'bg-rose-100/80 border-rose-300/50 rotate-2',
+    label: 'Precious Moments',
+  },
+  {
+    id: 'l3',
+    src: '/images/l3.jpg',
+    altSrc: '/l3.jpg',
+    fallback: '/images/journey-1.jpg',
+    tilt: '-rotate-3 -translate-y-0.5',
+    tapeStyle: 'bg-stone-100/80 border-stone-300/50 -rotate-2',
+    label: 'Pure Joy',
+  },
+  {
+    id: 'l4',
+    src: '/images/l4.jpg',
+    altSrc: '/l4.jpg',
+    fallback: '/images/M2.jpg',
+    tilt: 'rotate-5 translate-y-1',
+    tapeStyle: 'bg-amber-100/80 border-amber-300/50 rotate-4',
+    label: 'Golden Heart',
+  },
+
+  // Tier 2: Middle Row (4 photos bridging the middle gap)
+  {
+    id: 'l5',
+    src: '/images/l5.jpg',
+    altSrc: '/l5.jpg',
+    fallback: '/images/gallery-3.jpg',
+    tilt: '-rotate-5 translate-y-0.5',
+    tapeStyle: 'bg-rose-100/80 border-rose-300/50 -rotate-1',
+    label: 'Akka & Navi',
+  },
+  {
+    id: 'l6',
+    src: '/images/l6.jpg',
+    altSrc: '/l6.jpg',
+    fallback: '/images/M4.jpg',
+    tilt: 'rotate-5 -translate-y-1',
+    tapeStyle: 'bg-amber-100/80 border-amber-300/50 rotate-3',
+    label: 'Smiling Memories',
+  },
+  {
+    id: 'l7',
+    src: '/images/l7.jpg',
+    altSrc: '/l7.jpg',
+    fallback: '/images/M5.jpg',
+    tilt: '-rotate-4 translate-y-1',
+    tapeStyle: 'bg-purple-100/80 border-purple-300/50 -rotate-3',
+    label: 'Together Always',
+  },
+  {
+    id: 'l8',
+    src: '/images/l8.jpg',
+    altSrc: '/l8.jpg',
+    fallback: '/images/gallery-2.jpg',
+    tilt: 'rotate-6 -translate-y-0.5',
+    tapeStyle: 'bg-stone-100/80 border-stone-300/50 rotate-2',
+    label: 'Pure Radiance',
+  },
+
+  // Tier 3: Lower Highlight Row (3 milestone photos right above button)
+  {
+    id: 'l9',
+    src: '/images/l9.jpg',
+    altSrc: '/images/letter-photo-1.jpg',
+    fallback: '/images/letter-photo-1.jpg',
+    tilt: '-rotate-6 -translate-y-1.5',
+    tapeStyle: 'bg-amber-100/80 border-amber-300/50 -rotate-2',
+    label: 'Childhood Days',
+  },
+  {
+    id: 'l10',
+    src: '/images/l10.jpg',
+    altSrc: '/images/letter-photo-2.jpg',
+    fallback: '/images/letter-photo-2.jpg',
+    tilt: 'rotate-2 translate-y-1',
+    tapeStyle: 'bg-rose-100/80 border-rose-300/50 rotate-1',
+    label: 'Forever Akka',
+  },
+  {
+    id: 'l11',
+    src: '/images/l11.jpg',
+    altSrc: '/images/letter-photo-3.jpg',
+    fallback: '/images/letter-photo-3.jpg',
+    tilt: 'rotate-7 -translate-y-1',
+    tapeStyle: 'bg-amber-100/80 border-amber-300/50 -rotate-3',
+    label: 'Royal Milestone',
+  },
+];
+
 export default function EnvelopeLetter({ onNext }) {
   // Stages: 'COVER' -> 'SCROLL' -> 'UNTYING' -> 'UNROLLING' -> 'LETTER_OPEN'
   const [viewState, setViewState] = useState('COVER');
@@ -69,13 +177,8 @@ export default function EnvelopeLetter({ onNext }) {
       .filter(Boolean)
   ).current;
 
-  // Interactive movable states for 3 bottom photos
-  const [cardPositions, setCardPositions] = useState([
-    { x: 0, y: 0, rot: -3 },
-    { x: 0, y: 0, rot: 2 },
-    { x: 0, y: 0, rot: -4 },
-  ]);
-  const [activePhoto, setActivePhoto] = useState(null);
+  // Active zoomed photo state
+  const [activePhotoId, setActivePhotoId] = useState(null);
 
   const handleOpenSeal = () => {
     soundEngine.playLetterOpen();
@@ -256,6 +359,10 @@ export default function EnvelopeLetter({ onNext }) {
 
   return (
     <div
+      onClick={() => {
+        setActivePhoto(null);
+        setActiveScatterPhoto(null);
+      }}
       className={`fixed inset-0 w-full h-[100dvh] max-h-[100dvh] bg-[#7c1524] flex flex-col justify-between items-center py-1 sm:py-2 px-2 sm:px-4 select-none overflow-hidden z-40 transition-all duration-700 ease-in-out ${
         isExiting ? 'scale-75 opacity-0 blur-md pointer-events-none' : 'scale-100 opacity-100'
       }`}
@@ -398,11 +505,11 @@ export default function EnvelopeLetter({ onNext }) {
           ───────────────────────────────────────────────────────────── */}
       {viewState === 'LETTER_OPEN' && (
         <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col justify-between items-center h-full max-h-[100dvh] py-1 animate-scale-up">
-          {/* Main Large Parchment Paper - Mobile-optimized height budgeting */}
+          {/* Main Large Parchment Paper - Restored to FULL original vertical length */}
           <div
             onClick={handleSkipTyping}
             title="Tap to reveal entire letter"
-            className="relative w-full max-w-[420px] sm:max-w-[560px] md:max-w-[620px] flex-1 min-h-[220px] xs:min-h-[250px] sm:min-h-[340px] max-h-[46dvh] xs:max-h-[50dvh] sm:max-h-[62dvh] md:max-h-[68dvh] rounded-2xl overflow-hidden shadow-[0_18px_45px_rgba(0,0,0,0.85)] border border-amber-900/30 cursor-pointer flex-shrink"
+            className="relative w-full max-w-[420px] sm:max-w-[560px] md:max-w-[620px] flex-1 min-h-[250px] xs:min-h-[280px] sm:min-h-[360px] max-h-[53dvh] xs:max-h-[55dvh] sm:max-h-[64dvh] md:max-h-[68dvh] rounded-2xl overflow-hidden shadow-[0_18px_45px_rgba(0,0,0,0.85)] border border-amber-900/30 cursor-pointer flex-shrink-0"
           >
             {/* Real Unrolled Parchment Background with Top & Bottom Folds and Bells on Right */}
             <img
@@ -445,68 +552,62 @@ export default function EnvelopeLetter({ onNext }) {
           </div>
 
           {/* ─────────────────────────────────────────────────────────────
-              BOTTOM SECTION: 3 MOVABLE ANIMATED POLAROIDS & EXPLORE BUTTON
-              Elevated cleanly well above mobile browser bar, perfectly visible and clickable.
+              AESTHETIC SCATTERED MEMORY SCRAPBOOK WALL (l1 to l11)
+              Clean horizontal and vertical gaps: airy, aesthetic & zero congestion
               ───────────────────────────────────────────────────────────── */}
-          <div className="w-full flex flex-col items-center flex-shrink-0 pt-1 pb-6 sm:pb-4 mb-2">
-            {/* 3 Interactive Aesthetic Trendy Scattered Polaroid Collage */}
-            <div className="flex items-center justify-center mb-2 sm:mb-2.5 flex-shrink-0 z-20">
-              {[
-                {
-                  src: '/images/letter-photo-1.jpg',
-                  fallback: '/images/M1.jpg',
-                  label: 'Pure Joy',
-                  tiltClass: '-rotate-6 -translate-y-1.5 -mr-2.5 sm:-mr-4 z-10',
-                  imgPos: 'object-[center_12%]',
-                },
-                {
-                  src: '/images/letter-photo-2.jpg',
-                  fallback: '/images/M2.jpg',
-                  label: 'Forever Akka',
-                  tiltClass: 'rotate-2 translate-y-1 z-20',
-                  imgPos: 'object-[center_10%]', // Forehead & ornaments completely visible!
-                },
-                {
-                  src: '/images/letter-photo-3.jpg',
-                  fallback: '/images/M3.jpg',
-                  label: 'Memories',
-                  tiltClass: 'rotate-7 -translate-y-1 -ml-2.5 sm:-ml-4 z-10',
-                  imgPos: 'object-[center_12%]',
-                },
-              ].map((photo, idx) => {
-                const isZoomed = activePhoto === idx;
-
+          <div className="w-full flex flex-col justify-center items-center gap-2.5 xs:gap-3 sm:gap-4 my-auto py-1.5 z-20 flex-shrink-0">
+            {/* Tier 1: Upper Scattered Row (4 photos with clean horizontal gap) */}
+            <div className="flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-3 w-full max-w-[340px] xs:max-w-[370px] sm:max-w-xl px-1">
+              {AESTHETIC_MEMORY_PHOTOS.slice(0, 4).map((photo) => {
+                const isZoomed = activePhotoId === photo.id;
                 return (
                   <div
-                    key={idx}
-                    onClick={() => {
+                    key={photo.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
                       soundEngine.playCardClick();
-                      setActivePhoto(isZoomed ? null : idx);
+                      setActivePhotoId(isZoomed ? null : photo.id);
                     }}
                     style={{
                       transform: isZoomed
-                        ? 'translate3d(0px, -24px, 0px) scale(1.68) rotate(0deg)'
+                        ? 'translate3d(0px, -20px, 0px) scale(1.85) rotate(0deg)'
                         : undefined,
                       zIndex: isZoomed ? 60 : undefined,
                     }}
-                    className={`w-[80px] xs:w-[88px] sm:w-[110px] md:w-[124px] aspect-[4/3.2] bg-[#fefefe] p-0.5 sm:p-1 pb-2 sm:pb-2.5 rounded-lg sm:rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.7)] border border-stone-200 cursor-pointer select-none transition-all duration-300 ease-out origin-center ${
-                      photo.tiltClass
+                    className={`relative w-[60px] xs:w-[68px] sm:w-[84px] md:w-[96px] aspect-[4/3.2] bg-[#fefefe] p-0.5 sm:p-1 pb-1.5 sm:pb-2 rounded-lg sm:rounded-xl shadow-[0_6px_18px_rgba(0,0,0,0.65)] border border-stone-200 cursor-pointer select-none transition-all duration-300 ease-out origin-center ${
+                      photo.tilt
                     } ${
                       isZoomed
                         ? 'shadow-[0_25px_50px_rgba(0,0,0,0.95)] ring-4 ring-amber-300'
-                        : 'hover:scale-105'
+                        : 'hover:scale-105 hover:z-30'
                     }`}
                   >
-                    {/* Aesthetic Washi Tape on top corner */}
-                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-2 bg-amber-100/70 border border-amber-300/40 rounded-xs shadow-xs -rotate-2 pointer-events-none" />
+                    {/* Washi Tape */}
+                    <div
+                      className={`absolute -top-1.5 left-1/2 -translate-x-1/2 w-5 sm:w-6 h-1.5 sm:h-2 rounded-xs border shadow-xs pointer-events-none ${photo.tapeStyle}`}
+                    />
 
-                    <div className="w-full h-full rounded sm:rounded-lg overflow-hidden bg-slate-900 shadow-inner">
+                    <div className="w-full h-full rounded sm:rounded-md overflow-hidden bg-slate-900 shadow-inner">
                       <img
                         src={photo.src}
                         alt={photo.label}
-                        className={`w-full h-full object-cover pointer-events-none ${photo.imgPos}`}
+                        className="w-full h-full object-cover pointer-events-none object-[center_15%]"
                         onError={(e) => {
-                          e.target.src = photo.fallback;
+                          const attempts = parseInt(e.target.dataset.attempts || '0', 10);
+                          const altPaths = [
+                            photo.altSrc,
+                            `/${photo.id}.jpg`,
+                            `/images/${photo.id}.png`,
+                            `/${photo.id}.png`,
+                            `/images/${photo.id}.jpeg`,
+                            `/${photo.id}.jpeg`,
+                          ];
+                          if (attempts < altPaths.length) {
+                            e.target.dataset.attempts = (attempts + 1).toString();
+                            e.target.src = altPaths[attempts];
+                          } else {
+                            e.target.src = photo.fallback;
+                          }
                         }}
                       />
                     </div>
@@ -515,15 +616,133 @@ export default function EnvelopeLetter({ onNext }) {
               })}
             </div>
 
-            {/* Next Button - 100% Clearly Visible, Elevated & Never Overlapped */}
-            <div className="flex-shrink-0 z-30 pt-1.5 pb-1">
-              <button
-                onClick={handleNextWithAnimation}
-                className="px-7 py-2.5 sm:px-9 sm:py-3 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-amber-300 text-stone-900 font-heading font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-[0_0_22px_rgba(244,63,94,0.7)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-              >
-                EXPLORE OUR MEMORIES →
-              </button>
+            {/* Tier 2: Middle Scattered Row (4 photos with clean horizontal gap) */}
+            <div className="flex items-center justify-center gap-1.5 xs:gap-2 sm:gap-3 w-full max-w-[340px] xs:max-w-[370px] sm:max-w-xl px-1">
+              {AESTHETIC_MEMORY_PHOTOS.slice(4, 8).map((photo) => {
+                const isZoomed = activePhotoId === photo.id;
+                return (
+                  <div
+                    key={photo.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      soundEngine.playCardClick();
+                      setActivePhotoId(isZoomed ? null : photo.id);
+                    }}
+                    style={{
+                      transform: isZoomed
+                        ? 'translate3d(0px, -20px, 0px) scale(1.85) rotate(0deg)'
+                        : undefined,
+                      zIndex: isZoomed ? 60 : undefined,
+                    }}
+                    className={`relative w-[60px] xs:w-[68px] sm:w-[84px] md:w-[96px] aspect-[4/3.2] bg-[#fefefe] p-0.5 sm:p-1 pb-1.5 sm:pb-2 rounded-lg sm:rounded-xl shadow-[0_6px_18px_rgba(0,0,0,0.65)] border border-stone-200 cursor-pointer select-none transition-all duration-300 ease-out origin-center ${
+                      photo.tilt
+                    } ${
+                      isZoomed
+                        ? 'shadow-[0_25px_50px_rgba(0,0,0,0.95)] ring-4 ring-amber-300'
+                        : 'hover:scale-105 hover:z-30'
+                    }`}
+                  >
+                    {/* Washi Tape */}
+                    <div
+                      className={`absolute -top-1.5 left-1/2 -translate-x-1/2 w-5 sm:w-6 h-1.5 sm:h-2 rounded-xs border shadow-xs pointer-events-none ${photo.tapeStyle}`}
+                    />
+
+                    <div className="w-full h-full rounded sm:rounded-md overflow-hidden bg-slate-900 shadow-inner">
+                      <img
+                        src={photo.src}
+                        alt={photo.label}
+                        className="w-full h-full object-cover pointer-events-none object-[center_15%]"
+                        onError={(e) => {
+                          const attempts = parseInt(e.target.dataset.attempts || '0', 10);
+                          const altPaths = [
+                            photo.altSrc,
+                            `/${photo.id}.jpg`,
+                            `/images/${photo.id}.png`,
+                            `/${photo.id}.png`,
+                            `/images/${photo.id}.jpeg`,
+                            `/${photo.id}.jpeg`,
+                          ];
+                          if (attempts < altPaths.length) {
+                            e.target.dataset.attempts = (attempts + 1).toString();
+                            e.target.src = altPaths[attempts];
+                          } else {
+                            e.target.src = photo.fallback;
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
+
+            {/* Tier 3: Lower Milestone Row (3 photos with clean horizontal gap) */}
+            <div className="flex items-center justify-center gap-2 xs:gap-2.5 sm:gap-3.5 w-full max-w-[340px] xs:max-w-[370px] sm:max-w-xl px-1">
+              {AESTHETIC_MEMORY_PHOTOS.slice(8, 11).map((photo) => {
+                const isZoomed = activePhotoId === photo.id;
+                return (
+                  <div
+                    key={photo.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      soundEngine.playCardClick();
+                      setActivePhotoId(isZoomed ? null : photo.id);
+                    }}
+                    style={{
+                      transform: isZoomed
+                        ? 'translate3d(0px, -22px, 0px) scale(1.85) rotate(0deg)'
+                        : undefined,
+                      zIndex: isZoomed ? 60 : undefined,
+                    }}
+                    className={`relative w-[66px] xs:w-[74px] sm:w-[90px] md:w-[102px] aspect-[4/3.2] bg-[#fefefe] p-0.5 sm:p-1 pb-1.5 sm:pb-2 rounded-lg sm:rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.7)] border border-stone-200 cursor-pointer select-none transition-all duration-300 ease-out origin-center ${
+                      photo.tilt
+                    } ${
+                      isZoomed
+                        ? 'shadow-[0_25px_50px_rgba(0,0,0,0.95)] ring-4 ring-amber-300'
+                        : 'hover:scale-105'
+                    }`}
+                  >
+                    {/* Washi Tape */}
+                    <div
+                      className={`absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 sm:w-7 h-1.5 sm:h-2 rounded-xs border shadow-xs pointer-events-none ${photo.tapeStyle}`}
+                    />
+
+                    <div className="w-full h-full rounded sm:rounded-lg overflow-hidden bg-slate-900 shadow-inner">
+                      <img
+                        src={photo.src}
+                        alt={photo.label}
+                        className="w-full h-full object-cover pointer-events-none object-[center_15%]"
+                        onError={(e) => {
+                          const attempts = parseInt(e.target.dataset.attempts || '0', 10);
+                          const altPaths = [
+                            photo.altSrc,
+                            `/${photo.id}.jpg`,
+                            `/images/${photo.id}.png`,
+                            `/${photo.id}.png`,
+                          ];
+                          if (attempts < altPaths.length) {
+                            e.target.dataset.attempts = (attempts + 1).toString();
+                            e.target.src = altPaths[attempts];
+                          } else {
+                            e.target.src = photo.fallback;
+                          }
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Bottom Button Section - 100% Clearly Visible & Elevated */}
+          <div className="flex-shrink-0 z-30 pt-1 pb-6 sm:pb-4 mb-2">
+            <button
+              onClick={handleNextWithAnimation}
+              className="px-7 py-2.5 sm:px-9 sm:py-3 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-amber-300 text-stone-900 font-heading font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-[0_0_22px_rgba(244,63,94,0.7)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+            >
+              EXPLORE OUR MEMORIES →
+            </button>
           </div>
         </div>
       )}
