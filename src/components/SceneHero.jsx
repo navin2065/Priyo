@@ -63,7 +63,7 @@ export default function SceneHero({ onNext }) {
   return (
     <div
       onClick={() => setActiveCardIndex(null)}
-      className="fixed inset-0 w-screen h-screen overflow-hidden select-none flex flex-col justify-between py-3 sm:py-6 px-2 sm:px-4 z-40 bg-[#160206]"
+      className="fixed inset-0 w-full h-[100dvh] max-h-[100dvh] overflow-hidden select-none flex flex-col justify-between pt-2 sm:pt-4 pb-8 sm:pb-6 px-2 sm:px-4 z-40 bg-[#160206]"
     >
       {/* Luxury Ambient Background with Warm Rose Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(190,24,93,0.32)_0%,rgba(136,19,55,0.18)_40%,rgba(22,2,6,0.98)_90%)] pointer-events-none" />
@@ -88,7 +88,7 @@ export default function SceneHero({ onNext }) {
           MIDDLE SECTION: 5-CARD MOUNTAIN DECK (Click-Only Activation)
           No auto-hover! Activates ONLY when user explicitly clicks/taps!
           ───────────────────────────────────────────────────────────── */}
-      <div className="relative z-20 w-full max-w-5xl mx-auto flex items-center justify-center min-h-[300px] sm:min-h-[440px] my-auto">
+      <div className="relative z-20 w-full max-w-5xl mx-auto flex items-center justify-center min-h-[220px] xs:min-h-[250px] sm:min-h-[400px] my-auto">
         <div className="relative w-full flex items-center justify-center h-full">
           {MEMORIES.map((memory, i) => {
             const offset = i - 2; // -2, -1, 0, 1, 2
@@ -180,7 +180,7 @@ export default function SceneHero({ onNext }) {
                   opacity: opacity,
                   transition: 'all 0.38s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
-                className="absolute w-[130px] xs:w-[138px] sm:w-[210px] md:w-[250px] lg:w-[275px] aspect-[3/4.2] cursor-pointer group select-none origin-bottom"
+                className="absolute w-[124px] xs:w-[134px] sm:w-[210px] md:w-[250px] lg:w-[275px] aspect-[3/4.2] cursor-pointer group select-none origin-bottom"
               >
                 {/* Card Container with Rounded Corners */}
                 <div
@@ -228,11 +228,12 @@ export default function SceneHero({ onNext }) {
 
       {/* ─────────────────────────────────────────────────────────────
           BOTTOM SECTION: BLOW CANDLE CALL TO ACTION
+          Elevated cleanly well above mobile browser bar, perfectly visible and clickable.
           ───────────────────────────────────────────────────────────── */}
-      <div className="relative z-30 max-w-md w-full mx-auto text-center flex flex-col items-center pb-2 animate-scale-up">
+      <div className="relative z-30 max-w-md w-full mx-auto text-center flex flex-col items-center pb-6 sm:pb-4 mb-3 sm:mb-2 animate-scale-up">
         <button
           onClick={onNext}
-          className="px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-amber-300 text-stone-900 font-heading font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-[0_0_25px_rgba(244,63,94,0.6)] hover:scale-105 active:scale-95 transition-all"
+          className="px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-amber-300 text-stone-900 font-heading font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-[0_0_25px_rgba(244,63,94,0.7)] hover:scale-105 active:scale-95 transition-all cursor-pointer"
         >
           BLOW YOUR BIRTHDAY CANDLE →
         </button>

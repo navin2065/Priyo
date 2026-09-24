@@ -82,7 +82,7 @@ export default function CandleFinale({ onRestart }) {
   };
 
   return (
-    <div className="fixed inset-0 w-screen h-screen bg-[#7c1524] text-slate-100 flex flex-col justify-between items-center py-4 px-3 select-none overflow-hidden z-40">
+    <div className="fixed inset-0 w-full h-[100dvh] max-h-[100dvh] bg-[#7c1524] text-slate-100 flex flex-col justify-between items-center pt-3 pb-8 sm:pb-6 px-3 select-none overflow-hidden z-40">
       {/* Background subtle luxury lighting */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(163,26,45,0.4)_0%,rgba(60,6,14,0.98)_100%)] pointer-events-none" />
 
@@ -109,14 +109,14 @@ export default function CandleFinale({ onRestart }) {
           </div>
 
           {/* Bottom-Left: Below Video on Left */}
-          <div className="absolute bottom-[17%] sm:bottom-[19%] left-[4%] sm:left-[8%] animate-float-bl">
+          <div className="absolute bottom-[20%] sm:bottom-[21%] left-[4%] sm:left-[8%] animate-float-bl">
             <span className="font-script text-base sm:text-xl text-pink-300/95 drop-shadow-[0_2px_12px_rgba(255,107,139,0.75)] whitespace-nowrap">
               💖 Forever Our #1 Akka 💖
             </span>
           </div>
 
           {/* Bottom-Right: Below Video on Right */}
-          <div className="absolute bottom-[17%] sm:bottom-[19%] right-[4%] sm:right-[8%] animate-float-br">
+          <div className="absolute bottom-[20%] sm:bottom-[21%] right-[4%] sm:right-[8%] animate-float-br">
             <span className="font-heading font-extrabold text-[11px] sm:text-sm text-amber-100/90 tracking-wide drop-shadow-[0_2px_10px_rgba(245,197,99,0.6)] whitespace-nowrap">
               🎂 Happy Birthday to You 🎂
             </span>
@@ -157,7 +157,7 @@ export default function CandleFinale({ onRestart }) {
           Large, prominent, untouched by surrounding text or UI!
           ───────────────────────────────────────────────────────────── */}
       <div className="relative z-10 my-auto flex flex-col items-center justify-center">
-        <div className="relative w-[275px] xs:w-[305px] sm:w-[350px] md:w-[390px] aspect-[4/3] rounded-2xl overflow-hidden bg-black/70 border-2 border-amber-300/40 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex items-center justify-center">
+        <div className="relative w-[260px] xs:w-[290px] sm:w-[350px] md:w-[390px] aspect-[4/3] rounded-2xl overflow-hidden bg-black/70 border-2 border-amber-300/40 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex items-center justify-center">
           
           {/* Real MP4 Video from Public folder */}
           {!videoError ? (
@@ -194,14 +194,14 @@ export default function CandleFinale({ onRestart }) {
 
       {/* ─────────────────────────────────────────────────────────────
           BOTTOM SECTION: CONTROLS & SEPARATE TYPED SIGNATURE
-          Separated cleanly from photo ribbons, perfectly fixed without scrolling.
+          Elevated cleanly well above mobile browser bar, perfectly visible and clickable.
           ───────────────────────────────────────────────────────────── */}
-      <div className="relative z-10 max-w-sm w-full mx-auto text-center flex flex-col items-center justify-end pb-2 min-h-[90px]">
+      <div className="relative z-10 max-w-sm w-full mx-auto text-center flex flex-col items-center justify-end pb-6 sm:pb-4 mb-3 sm:mb-2 min-h-[75px] sm:min-h-[85px]">
         {/* Phase 1: Blow Candle Button */}
         {phase === 'IDLE' && (
           <button
             onClick={handleBlowCandle}
-            className="px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-red-600 text-white font-heading font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-[0_0_25px_rgba(245,158,11,0.65)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+            className="px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-red-600 text-white font-heading font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-[0_0_25px_rgba(245,158,11,0.7)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 cursor-pointer"
           >
             <span>Blow The Candle</span>
           </button>
@@ -238,7 +238,7 @@ export default function CandleFinale({ onRestart }) {
             {typedText.length >= signatureFull.length && (
               <button
                 onClick={handleReset}
-                className="mt-2 text-[10px] text-rose-200/60 hover:text-white transition-colors underline underline-offset-4 relative z-50 pointer-events-auto"
+                className="mt-2 text-xs sm:text-[11px] text-amber-200/80 hover:text-white transition-colors underline underline-offset-4 relative z-50 pointer-events-auto py-1 px-3"
               >
                 Relight / Replay
               </button>
