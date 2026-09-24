@@ -451,51 +451,62 @@ export default function EnvelopeLetter({ onNext }) {
               BOTTOM SECTION: 3 MOVABLE ANIMATED POLAROIDS & EXPLORE BUTTON
               ───────────────────────────────────────────────────────────── */}
           <div className="w-full flex flex-col items-center flex-shrink-0 pt-1">
-            {/* 3 Interactive Movable Polaroid Images (Enlarged & Prominent) */}
-            <div className="flex items-center justify-center gap-3 sm:gap-4 my-1.5 flex-shrink-0 z-20">
+            {/* 3 Interactive Aesthetic Trendy Scattered Polaroid Collage */}
+            <div className="flex items-center justify-center my-2 flex-shrink-0 z-20">
               {[
                 {
                   src: '/images/letter-photo-1.jpg',
                   fallback: '/images/M1.jpg',
                   label: 'Pure Joy',
-                  tiltClass: '-rotate-3',
+                  tiltClass: '-rotate-6 -translate-y-2 -mr-3 sm:-mr-4 z-10',
+                  imgPos: 'object-[center_12%]',
                 },
                 {
                   src: '/images/letter-photo-2.jpg',
                   fallback: '/images/M2.jpg',
                   label: 'Forever Akka',
-                  tiltClass: 'rotate-2',
+                  tiltClass: 'rotate-2 translate-y-1.5 z-20',
+                  imgPos: 'object-[center_10%]', // Fix head cropping for close-up!
                 },
                 {
                   src: '/images/letter-photo-3.jpg',
                   fallback: '/images/M3.jpg',
                   label: 'Memories',
-                  tiltClass: '-rotate-4',
+                  tiltClass: 'rotate-7 -translate-y-1.5 -ml-3 sm:-ml-4 z-10',
+                  imgPos: 'object-[center_12%]',
                 },
               ].map((photo, idx) => {
-                const pos = cardPositions[idx];
-                const isActive = activePhoto === idx;
+                const isZoomed = activePhoto === idx;
 
                 return (
                   <div
                     key={idx}
-                    onMouseEnter={() => handlePhotoInteraction(idx, 12)}
-                    onMouseLeave={() => resetPhotoPosition(idx)}
-                    onTouchStart={() => setActivePhoto(idx)}
-                    onTouchEnd={() => setActivePhoto(null)}
-                    style={{
-                      transform: `translate3d(${pos.x}px, ${pos.y}px, 0px) rotate(${pos.rot}deg) ${
-                        isActive ? 'scale(1.18)' : 'scale(1)'
-                      }`,
-                      transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                    onClick={() => {
+                      soundEngine.playCardClick();
+                      setActivePhoto(isZoomed ? null : idx);
                     }}
-                    className={`w-20 xs:w-24 sm:w-28 md:w-32 aspect-[4/3.2] bg-white p-1 sm:p-1.5 pb-2.5 sm:pb-3 rounded-lg sm:rounded-xl shadow-[0_10px_24px_rgba(0,0,0,0.7)] border border-stone-200/90 cursor-pointer select-none flex-shrink-0 ${photo.tiltClass}`}
+                    style={{
+                      transform: isZoomed
+                        ? 'translate3d(0px, -24px, 0px) scale(1.68) rotate(0deg)'
+                        : undefined,
+                      zIndex: isZoomed ? 60 : undefined,
+                    }}
+                    className={`w-21 xs:w-25 sm:w-29 md:w-33 aspect-[4/3.2] bg-[#fefefe] p-1 sm:p-1.5 pb-2.5 sm:pb-3 rounded-lg sm:rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.7)] border border-stone-200 cursor-pointer select-none transition-all duration-300 ease-out origin-center ${
+                      photo.tiltClass
+                    } ${
+                      isZoomed
+                        ? 'shadow-[0_25px_50px_rgba(0,0,0,0.95)] ring-4 ring-amber-300'
+                        : 'hover:scale-105'
+                    }`}
                   >
+                    {/* Aesthetic Washi Tape on top corner */}
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-7 h-2.5 bg-amber-100/70 border border-amber-300/40 rounded-xs shadow-xs -rotate-2 pointer-events-none" />
+
                     <div className="w-full h-full rounded sm:rounded-lg overflow-hidden bg-slate-900 shadow-inner">
                       <img
                         src={photo.src}
                         alt={photo.label}
-                        className="w-full h-full object-cover object-center pointer-events-none"
+                        className={`w-full h-full object-cover pointer-events-none ${photo.imgPos}`}
                         onError={(e) => {
                           e.target.src = photo.fallback;
                         }}
