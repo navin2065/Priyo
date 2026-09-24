@@ -13,8 +13,8 @@ const RIBBON_COLUMNS = [
     style: { left: '1%' },
     delay: '0.1s',
     photos: [
-      { id: 1, fallback: '/images/M1.jpg', rot: '-5deg', top: 'top-[7%]' },
-      { id: 2, fallback: '/images/M2.jpg', rot: '4deg', top: 'top-[42%]' },
+      { id: 1, fallback: '/images/M1.jpg', rot: '-2deg', top: 'top-[7%]' },
+      { id: 2, fallback: '/images/M2.jpg', rot: '2deg', top: 'top-[42%]' },
     ],
   },
   {
@@ -22,8 +22,8 @@ const RIBBON_COLUMNS = [
     style: { left: '13%' },
     delay: '0.2s',
     photos: [
-      { id: 3, fallback: '/images/M3.jpg', rot: '3deg', top: 'top-[13%]' },
-      { id: 4, fallback: '/images/M4.jpg', rot: '-4deg', top: 'top-[74%]' },
+      { id: 3, fallback: '/images/M3.jpg', rot: '2deg', top: 'top-[13%]' },
+      { id: 4, fallback: '/images/M4.jpg', rot: '-2deg', top: 'top-[74%]' },
     ],
   },
   {
@@ -31,8 +31,8 @@ const RIBBON_COLUMNS = [
     style: { right: '13%' },
     delay: '0.18s',
     photos: [
-      { id: 5, fallback: '/images/M5.jpg', rot: '-3deg', top: 'top-[13%]' },
-      { id: 6, fallback: '/images/akka-real.jpg', rot: '4deg', top: 'top-[74%]' },
+      { id: 5, fallback: '/images/M5.jpg', rot: '-2deg', top: 'top-[13%]' },
+      { id: 6, fallback: '/images/akka-real.jpg', rot: '2deg', top: 'top-[74%]' },
     ],
   },
   {
@@ -40,8 +40,8 @@ const RIBBON_COLUMNS = [
     style: { right: '1%' },
     delay: '0.28s',
     photos: [
-      { id: 7, fallback: '/images/sibling-hero.jpg', rot: '5deg', top: 'top-[7%]' },
-      { id: 8, fallback: '/images/lock-polaroid.jpg', rot: '-4deg', top: 'top-[42%]' },
+      { id: 7, fallback: '/images/sibling-hero.jpg', rot: '2deg', top: 'top-[7%]' },
+      { id: 8, fallback: '/images/lock-polaroid.jpg', rot: '-2deg', top: 'top-[42%]' },
     ],
   },
 ];
@@ -82,7 +82,7 @@ export default function FallingRibbons() {
   return (
     <div
       onClick={() => setActivePhotoId(null)}
-      className="fixed inset-0 pointer-events-none z-10 overflow-hidden select-none"
+      className="fixed inset-0 pointer-events-none z-30 overflow-hidden select-none"
     >
       {RIBBON_COLUMNS.map((column) => (
         <div
@@ -93,37 +93,48 @@ export default function FallingRibbons() {
           }}
           className="absolute top-0 bottom-0 w-20 xs:w-24 sm:w-28 animate-drop-ribbon flex flex-col items-center"
         >
-          {/* Delicate Vertical Satin Ribbon String */}
+          {/* Delicate Vertical Satin Ribbon String (Centered exactly in column) */}
           <div className="relative w-full h-full flex flex-col items-center animate-ribbon-sway origin-top">
-            <div className="absolute top-0 bottom-6 w-[1.5px] bg-gradient-to-b from-amber-200 via-rose-300 to-amber-500/80 shadow-[0_0_6px_rgba(245,197,99,0.3)] rounded-full z-10" />
+            <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-[2px] bg-gradient-to-b from-[#ffd54f] via-[#ffca28] to-[#ffa000] shadow-[0_0_8px_rgba(255,202,40,0.7)] z-10 pointer-events-none" />
 
-            {/* Enlarged Realistic Photographs on this Ribbon */}
+            {/* Photos physically attached and clamped directly onto this hanging ribbon string */}
             {column.photos.map((photo) => {
               const isZoomed = activePhotoId === photo.id;
               return (
                 <div
                   key={photo.id}
                   style={{
-                    transform: `rotate(${isZoomed ? '0deg' : photo.rot}) ${
-                      isZoomed ? 'scale(1.58)' : 'scale(1)'
-                    }`,
-                    zIndex: isZoomed ? 60 : 20,
+                    zIndex: isZoomed ? 80 : 35,
                   }}
                   onClick={(e) => handlePhotoClick(e, photo.id)}
-                  className={`absolute ${photo.top} -translate-x-1/2 left-1/2 pointer-events-auto cursor-pointer transition-all duration-300 ease-out origin-center`}
+                  className={`absolute ${photo.top} left-1/2 -translate-x-1/2 pointer-events-auto cursor-pointer transition-all duration-300 ease-out flex flex-col items-center`}
                 >
-                  {/* Delicate Brass Pin Clip */}
-                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-2 h-2.5 rounded-[1px] bg-gradient-to-b from-amber-200 via-amber-400 to-amber-600 shadow-xs border border-white/50 z-30" />
+                  {/* Clothespin Peg Clip: Clamped directly over the vertical string */}
+                  <div className="relative -mb-3 z-40 flex flex-col items-center pointer-events-none filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)]">
+                    {/* Peg Top Body */}
+                    <div className="w-3 h-4 rounded-t-[2px] bg-gradient-to-b from-[#ffe082] via-[#ffb300] to-[#e65100] border border-amber-200/90 relative flex items-center justify-center">
+                      {/* Metallic Spring Wire Ring */}
+                      <div className="absolute bottom-0 inset-x-0 h-[1.5px] bg-stone-300 border-y border-stone-600" />
+                    </div>
+                    {/* Peg Bottom Clamping Jaw (Clamps 12px over the white photo border) */}
+                    <div className="w-2.5 h-3 rounded-b-[1px] bg-gradient-to-b from-[#ffb300] to-[#bf360c] border-x border-b border-amber-950/40" />
+                  </div>
 
-                  {/* Enlarged Realistic Photo Print (r1, r2... Images only) */}
+                  {/* Square Photo Print: Hanging firmly from the clothespin clip */}
                   <div
-                    className={`w-18 h-24 xs:w-20 xs:h-27 sm:w-25 sm:h-33 p-1 pb-2 sm:p-1.5 sm:pb-2.5 bg-[#fefefe] rounded-[3px] transition-all duration-300 ${
+                    style={{
+                      transform: `rotate(${isZoomed ? '0deg' : photo.rot}) ${
+                        isZoomed ? 'scale(1.7)' : 'scale(1)'
+                      }`,
+                      transformOrigin: 'top center',
+                    }}
+                    className={`w-[78px] h-[78px] xs:w-[86px] xs:h-[86px] sm:w-[100px] sm:h-[100px] md:w-[112px] md:h-[112px] p-1 sm:p-1.5 bg-[#fefefe] rounded-[4px] transition-all duration-300 ${
                       isZoomed
-                        ? 'shadow-[0_20px_40px_rgba(0,0,0,0.95)] ring-4 ring-amber-300/90'
-                        : 'shadow-[0_6px_18px_rgba(0,0,0,0.7)] hover:shadow-[0_10px_25px_rgba(0,0,0,0.9)] hover:scale-105'
+                        ? 'shadow-[0_22px_45px_rgba(0,0,0,0.95)] ring-4 ring-amber-300/90'
+                        : 'shadow-[0_8px_22px_rgba(0,0,0,0.75)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.9)] hover:scale-105'
                     }`}
                   >
-                    <div className="w-full h-full overflow-hidden rounded-[2px] bg-stone-900 shadow-inner">
+                    <div className="w-full h-full aspect-square overflow-hidden rounded-[2px] bg-stone-900 shadow-inner">
                       <RibbonPhotoImg id={photo.id} fallback={photo.fallback} />
                     </div>
                   </div>

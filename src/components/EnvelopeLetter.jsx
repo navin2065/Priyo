@@ -194,11 +194,11 @@ export default function EnvelopeLetter({ onNext }) {
       const displayedText = secWords.slice(0, showCount).join(' ');
       const isCurrentlyTyping = showCount < secWords.length && showCount > 0;
 
-      // Greeting: "My dear Akka,"
+      // Greeting: "My dear Akka," (Clear, bold & vibrant - NOT dim)
       if (section.type === 'greeting') {
         return (
-          <div key={section.id} className="pt-1.5 sm:pt-2 pb-1">
-            <h2 className="font-handwritten text-xl sm:text-2xl md:text-3xl text-[#7c1524] font-bold tracking-wide leading-none">
+          <div key={section.id} className="pt-2 sm:pt-3 pb-1.5">
+            <h2 className="font-handwritten text-2xl sm:text-3xl md:text-4xl text-[#3d060f] font-black tracking-wide leading-tight drop-shadow-[0_1px_2px_rgba(255,255,255,0.8)]">
               {displayedText}
               {isCurrentlyTyping && <GoldenSparkle />}
             </h2>
@@ -397,12 +397,12 @@ export default function EnvelopeLetter({ onNext }) {
           STAGE 5: FINAL LETTER SCREEN (STRICTLY INSIDE GREEN/RED BOUNDS)
           ───────────────────────────────────────────────────────────── */}
       {viewState === 'LETTER_OPEN' && (
-        <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col justify-between items-center h-full max-h-[98vh] py-1 animate-scale-up">
-          {/* Main Large Parchment Paper */}
+        <div className="relative z-10 w-full max-w-4xl mx-auto flex flex-col justify-between items-center h-full max-h-[96vh] max-h-[96dvh] py-1 animate-scale-up">
+          {/* Main Large Parchment Paper - Mobile-optimized height budgeting */}
           <div
             onClick={handleSkipTyping}
             title="Tap to reveal entire letter"
-            className="relative w-full max-w-[420px] sm:max-w-[580px] md:max-w-[640px] flex-1 min-h-[380px] max-h-[74vh] sm:max-h-[76vh] rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.85)] border border-amber-900/30 cursor-pointer flex-shrink"
+            className="relative w-full max-w-[420px] sm:max-w-[560px] md:max-w-[620px] flex-1 min-h-[260px] xs:min-h-[290px] sm:min-h-[360px] max-h-[56vh] xs:max-h-[59vh] sm:max-h-[66vh] md:max-h-[70vh] rounded-2xl overflow-hidden shadow-[0_18px_45px_rgba(0,0,0,0.85)] border border-amber-900/30 cursor-pointer flex-shrink"
           >
             {/* Real Unrolled Parchment Background with Top & Bottom Folds and Bells on Right */}
             <img
@@ -412,20 +412,17 @@ export default function EnvelopeLetter({ onNext }) {
             />
 
             {/* ─────────────────────────────────────────────────────────
-                EXACT GREEN & RED BOUNDARIES MARKED BY USER:
-                top: 19% (cleanly below top roll, bringing greeting down)
-                bottom: 16% (cleanly above bottom roll)
+                EXACT GREEN & RED BOUNDARIES:
+                top: 23% (lowered down so 'My dear Akka' is 100% bright, crisp & clear)
+                bottom: 15% (cleanly above bottom roll)
                 left: 14% (inside left paper edge)
                 right: 20% (fills natural paper width, removing right gap)
-                
-                Content is scrollable inside this boundary so it NEVER touches
-                the rolls or spills outside, with generous uncongested spacing!
                 ───────────────────────────────────────────────────────── */}
             <div
               ref={scrollRef}
               style={{
-                top: '19%',
-                bottom: '16%',
+                top: '23%',
+                bottom: '15%',
                 left: '14%',
                 right: '20%',
               }}
@@ -439,7 +436,7 @@ export default function EnvelopeLetter({ onNext }) {
             {/* Gentle scroll fade gradient indicator at bottom inside paper */}
             <div
               style={{
-                bottom: '16%',
+                bottom: '15%',
                 left: '14%',
                 right: '20%',
               }}
@@ -449,30 +446,31 @@ export default function EnvelopeLetter({ onNext }) {
 
           {/* ─────────────────────────────────────────────────────────────
               BOTTOM SECTION: 3 MOVABLE ANIMATED POLAROIDS & EXPLORE BUTTON
+              Guaranteed clean spacing so button is NEVER covered by photos!
               ───────────────────────────────────────────────────────────── */}
-          <div className="w-full flex flex-col items-center flex-shrink-0 pt-1">
+          <div className="w-full flex flex-col items-center flex-shrink-0 pt-1 pb-1">
             {/* 3 Interactive Aesthetic Trendy Scattered Polaroid Collage */}
-            <div className="flex items-center justify-center my-2 flex-shrink-0 z-20">
+            <div className="flex items-center justify-center mb-1.5 sm:mb-2 flex-shrink-0 z-20">
               {[
                 {
                   src: '/images/letter-photo-1.jpg',
                   fallback: '/images/M1.jpg',
                   label: 'Pure Joy',
-                  tiltClass: '-rotate-6 -translate-y-2 -mr-3 sm:-mr-4 z-10',
+                  tiltClass: '-rotate-6 -translate-y-1.5 -mr-2.5 sm:-mr-4 z-10',
                   imgPos: 'object-[center_12%]',
                 },
                 {
                   src: '/images/letter-photo-2.jpg',
                   fallback: '/images/M2.jpg',
                   label: 'Forever Akka',
-                  tiltClass: 'rotate-2 translate-y-1.5 z-20',
-                  imgPos: 'object-[center_10%]', // Fix head cropping for close-up!
+                  tiltClass: 'rotate-2 translate-y-1 z-20',
+                  imgPos: 'object-[center_10%]', // Forehead & ornaments completely visible!
                 },
                 {
                   src: '/images/letter-photo-3.jpg',
                   fallback: '/images/M3.jpg',
                   label: 'Memories',
-                  tiltClass: 'rotate-7 -translate-y-1.5 -ml-3 sm:-ml-4 z-10',
+                  tiltClass: 'rotate-7 -translate-y-1 -ml-2.5 sm:-ml-4 z-10',
                   imgPos: 'object-[center_12%]',
                 },
               ].map((photo, idx) => {
@@ -491,7 +489,7 @@ export default function EnvelopeLetter({ onNext }) {
                         : undefined,
                       zIndex: isZoomed ? 60 : undefined,
                     }}
-                    className={`w-21 xs:w-25 sm:w-29 md:w-33 aspect-[4/3.2] bg-[#fefefe] p-1 sm:p-1.5 pb-2.5 sm:pb-3 rounded-lg sm:rounded-xl shadow-[0_10px_25px_rgba(0,0,0,0.7)] border border-stone-200 cursor-pointer select-none transition-all duration-300 ease-out origin-center ${
+                    className={`w-18 xs:w-21 sm:w-26 md:w-30 aspect-[4/3.2] bg-[#fefefe] p-0.5 sm:p-1 pb-2 sm:pb-2.5 rounded-lg sm:rounded-xl shadow-[0_8px_20px_rgba(0,0,0,0.7)] border border-stone-200 cursor-pointer select-none transition-all duration-300 ease-out origin-center ${
                       photo.tiltClass
                     } ${
                       isZoomed
@@ -500,7 +498,7 @@ export default function EnvelopeLetter({ onNext }) {
                     }`}
                   >
                     {/* Aesthetic Washi Tape on top corner */}
-                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-7 h-2.5 bg-amber-100/70 border border-amber-300/40 rounded-xs shadow-xs -rotate-2 pointer-events-none" />
+                    <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-6 h-2 bg-amber-100/70 border border-amber-300/40 rounded-xs shadow-xs -rotate-2 pointer-events-none" />
 
                     <div className="w-full h-full rounded sm:rounded-lg overflow-hidden bg-slate-900 shadow-inner">
                       <img
@@ -517,11 +515,11 @@ export default function EnvelopeLetter({ onNext }) {
               })}
             </div>
 
-            {/* Next Button in SAME Single Viewport */}
-            <div className="pt-0.5 pb-1">
+            {/* Next Button - 100% Clearly Visible & Never Overlapped */}
+            <div className="flex-shrink-0 z-30 pt-0.5 pb-0.5">
               <button
                 onClick={handleNextWithAnimation}
-                className="px-7 py-2 sm:px-9 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-amber-300 text-stone-900 font-heading font-extrabold text-[11px] sm:text-xs md:text-sm tracking-widest uppercase shadow-[0_0_22px_rgba(244,63,94,0.65)] hover:scale-105 active:scale-95 transition-all"
+                className="px-6 py-2 sm:px-9 sm:py-2.5 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-amber-300 text-stone-900 font-heading font-extrabold text-[11px] sm:text-xs md:text-sm tracking-widest uppercase shadow-[0_0_20px_rgba(244,63,94,0.65)] hover:scale-105 active:scale-95 transition-all"
               >
                 EXPLORE OUR MEMORIES →
               </button>

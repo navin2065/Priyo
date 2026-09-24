@@ -243,6 +243,29 @@
   animation: floatInBottomRight 5s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
+/* Elegant Heart Shadow Bloom Effect at Touch/Click Location */
+@keyframes heartShadowBloom {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.95;
+    filter: drop-shadow(0 0 8px rgba(244, 63, 94, 0.9));
+  }
+  40% {
+    transform: translate(-50%, calc(-50% - 15px)) scale(1.2);
+    opacity: 0.85;
+    filter: drop-shadow(0 0 16px rgba(244, 63, 94, 0.75));
+  }
+  100% {
+    transform: translate(-50%, calc(-50% - 30px)) scale(1.55);
+    opacity: 0;
+    filter: blur(2px) drop-shadow(0 0 25px rgba(244, 63, 94, 0));
+  }
+}
+
+.animate-heart-shadow {
+  animation: heartShadowBloom 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* Scroll Untying & Unrolling Animations */
 @keyframes knotLoosen {
   0% {

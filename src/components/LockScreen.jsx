@@ -60,29 +60,29 @@ export default function LockScreen({ onUnlock }) {
 
   return (
     <div
-      className={`fixed inset-0 z-50 bg-[#7c1524] flex flex-col justify-center items-center p-3 sm:p-6 overflow-y-auto select-none transition-all duration-700 ease-in-out ${
+      className={`fixed inset-0 h-[100dvh] w-full z-50 bg-[#7c1524] flex flex-col justify-center items-center p-2 sm:p-6 overflow-hidden select-none transition-all duration-700 ease-in-out ${
         isZoomingOut ? 'scale-75 opacity-0 blur-sm pointer-events-none' : 'scale-100 opacity-100'
       }`}
     >
       {/* Background radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(163,26,45,0.45)_0%,rgba(92,10,21,0.98)_100%)] pointer-events-none" />
 
-      {/* Main Grid: Fully optimized for 100% Mobile & Desktop viewports without clipping */}
-      <div className="relative max-w-4xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-3 sm:gap-8 md:gap-12 items-center justify-items-center z-10 my-auto">
+      {/* Main Grid: Fully optimized for 100% Mobile & Desktop viewports with ZERO scrolling */}
+      <div className="relative max-w-4xl w-full mx-auto grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-8 md:gap-12 items-center justify-items-center z-10 my-auto">
         {/* Left Column: Polaroid Frame with Real Red Ribbon Bow */}
-        <div className="md:col-span-6 flex justify-center pt-2 sm:pt-4">
-          <div className="relative w-44 sm:w-64 md:w-72 max-w-[190px] sm:max-w-[300px]">
-            {/* Real Photorealistic Red Satin Ribbon Bow (Pinned on top-left corner, fully visible on mobile) */}
-            <div className="absolute -top-5 -left-5 sm:-top-8 sm:-left-8 z-30 transform -rotate-12 pointer-events-none filter drop-shadow-[0_6px_12px_rgba(0,0,0,0.65)]">
+        <div className="md:col-span-6 flex justify-center">
+          <div className="relative w-44 sm:w-64 md:w-72 max-w-[172px] sm:max-w-[285px]">
+            {/* Real Photorealistic Red Satin Ribbon Bow (Pinned neatly on top-left corner) */}
+            <div className="absolute -top-4 -left-4 sm:-top-6 sm:-left-6 z-30 transform -rotate-12 pointer-events-none filter drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)]">
               <img
                 src="/images/red-bow.png"
                 alt="Red Ribbon Bow"
-                className="w-14 sm:w-20 md:w-24 h-auto object-contain"
+                className="w-12 sm:w-16 md:w-20 h-auto object-contain"
               />
             </div>
 
             {/* White Polaroid Frame (Tilted slightly) */}
-            <div className="bg-[#fcfcfc] p-2 pb-4 sm:p-3 sm:pb-7 rounded-xl shadow-[0_18px_45px_rgba(0,0,0,0.7)] transform -rotate-2 hover:rotate-0 transition-transform duration-300">
+            <div className="bg-[#fcfcfc] p-2 pb-3 sm:p-3 sm:pb-6 rounded-xl shadow-[0_14px_34px_rgba(0,0,0,0.68)] transform -rotate-2 hover:rotate-0 transition-transform duration-300">
               <div className="relative aspect-[4/5] rounded-lg overflow-hidden bg-stone-900 shadow-inner">
                 <img
                   src="/images/lock-polaroid.jpg"
@@ -96,8 +96,8 @@ export default function LockScreen({ onUnlock }) {
               </div>
 
               {/* Handwritten Note for Priyanga */}
-              <div className="mt-2 sm:mt-3 text-center">
-                <p className="font-handwritten text-xl sm:text-2xl md:text-3xl text-stone-800 font-bold leading-tight">
+              <div className="mt-1.5 sm:mt-2.5 text-center">
+                <p className="font-handwritten text-base sm:text-xl md:text-2xl text-stone-800 font-bold leading-tight">
                   Happy Birthday! Rodnoy
                 </p>
               </div>
@@ -105,15 +105,15 @@ export default function LockScreen({ onUnlock }) {
           </div>
         </div>
 
-        {/* Right Column: Keypad (Clean, compact on mobile so zero scrolling is needed) */}
-        <div className="md:col-span-6 flex flex-col items-center text-center pb-2">
-          <h3 className="text-[10px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase text-rose-200/90 mb-2 sm:mb-4">
+        {/* Right Column: Keypad (Stable & Balanced with zero scrolling) */}
+        <div className="md:col-span-6 flex flex-col items-center text-center">
+          <h3 className="text-[10px] sm:text-xs md:text-sm font-semibold tracking-widest uppercase text-rose-200/90 mb-1.5 sm:mb-2.5">
             ENTER A PASSCODE
           </h3>
 
           {/* 6 Rounded Square Indicator Boxes */}
           <div
-            className={`flex items-center gap-2 sm:gap-2.5 mb-3 sm:mb-5 ${
+            className={`flex items-center gap-2 sm:gap-2.5 mb-2.5 sm:mb-3.5 ${
               error ? 'animate-shake' : ''
             }`}
           >
@@ -122,10 +122,10 @@ export default function LockScreen({ onUnlock }) {
               return (
                 <div
                   key={idx}
-                  className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg border border-rose-300/40 bg-black/20 flex items-center justify-center transition-all"
+                  className="w-5.5 h-5.5 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg border border-rose-300/40 bg-black/20 flex items-center justify-center transition-all"
                 >
                   {isFilled && (
-                    <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-white shadow-[0_0_8px_#ffffff]" />
+                    <div className="w-1.5 h-1.5 sm:w-2.5 sm:h-2.5 rounded-full bg-white shadow-[0_0_8px_#ffffff]" />
                   )}
                 </div>
               );
@@ -133,7 +133,7 @@ export default function LockScreen({ onUnlock }) {
           </div>
 
           {/* Round Circle Keypad Buttons */}
-          <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 max-w-[200px] sm:max-w-[240px] w-full mb-2 sm:mb-3">
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-3 max-w-[195px] sm:max-w-[240px] w-full mb-1.5 sm:mb-2">
             {keypad.map((row, rIdx) =>
               row.map((btn, cIdx) => {
                 if (btn === '⌫') {
@@ -160,11 +160,11 @@ export default function LockScreen({ onUnlock }) {
             )}
           </div>
 
-          {/* Hint Indicator: Shows "Today" when clicked */}
+          {/* Hint Indicator: Shows clean "Today ✨" (NO bracketed numbers) */}
           <div className="min-h-[22px] flex items-center justify-center">
             {showHint ? (
-              <span className="text-[11px] sm:text-xs font-bold tracking-widest text-amber-300 animate-scale-up px-3 py-0.5 rounded-full bg-black/40 border border-amber-300/40 font-mono">
-                Today (25.09.26)
+              <span className="text-[10px] sm:text-xs font-bold tracking-widest text-amber-300 animate-scale-up px-2.5 py-0.5 rounded-full bg-black/40 border border-amber-300/40 font-mono">
+                Today ✨
               </span>
             ) : (
               <button

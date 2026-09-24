@@ -134,7 +134,7 @@ export default function CandleFinale({ onRestart }) {
       {/* ─────────────────────────────────────────────────────────────
           TOP SECTION: CLEAN MINIMAL HEADER
           ───────────────────────────────────────────────────────────── */}
-      <div className="relative z-20 max-w-sm w-full mx-auto text-center pt-1 animate-scale-up">
+      <div className="relative z-10 max-w-sm w-full mx-auto text-center pt-1 animate-scale-up">
         <div className="inline-flex items-center px-3 py-0.5 rounded-full bg-white/10 border border-white/20 text-amber-200 text-[11px] font-semibold uppercase tracking-wider mb-1 backdrop-blur-sm">
           <span>Born in 2000 • Chapter 26 Milestone</span>
         </div>
@@ -156,7 +156,7 @@ export default function CandleFinale({ onRestart }) {
           CENTER SECTION: ENLARGED MP4 VIDEO CONTAINER
           Large, prominent, untouched by surrounding text or UI!
           ───────────────────────────────────────────────────────────── */}
-      <div className="relative z-20 my-auto flex flex-col items-center justify-center">
+      <div className="relative z-10 my-auto flex flex-col items-center justify-center">
         <div className="relative w-[275px] xs:w-[305px] sm:w-[350px] md:w-[390px] aspect-[4/3] rounded-2xl overflow-hidden bg-black/70 border-2 border-amber-300/40 shadow-[0_20px_50px_rgba(0,0,0,0.9)] flex items-center justify-center">
           
           {/* Real MP4 Video from Public folder */}
@@ -196,16 +196,14 @@ export default function CandleFinale({ onRestart }) {
           BOTTOM SECTION: CONTROLS & SEPARATE TYPED SIGNATURE
           Separated cleanly from photo ribbons, perfectly fixed without scrolling.
           ───────────────────────────────────────────────────────────── */}
-      <div className="relative z-20 max-w-sm w-full mx-auto text-center flex flex-col items-center justify-end pb-2 min-h-[90px]">
+      <div className="relative z-10 max-w-sm w-full mx-auto text-center flex flex-col items-center justify-end pb-2 min-h-[90px]">
         {/* Phase 1: Blow Candle Button */}
         {phase === 'IDLE' && (
           <button
             onClick={handleBlowCandle}
             className="px-7 py-3 rounded-full bg-gradient-to-r from-amber-400 via-rose-500 to-red-600 text-white font-heading font-extrabold text-xs sm:text-sm tracking-widest uppercase shadow-[0_0_25px_rgba(245,158,11,0.65)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
           >
-            
             <span>Blow The Candle</span>
-            
           </button>
         )}
 
@@ -240,7 +238,7 @@ export default function CandleFinale({ onRestart }) {
             {typedText.length >= signatureFull.length && (
               <button
                 onClick={handleReset}
-                className="mt-2 text-[10px] text-rose-200/60 hover:text-white transition-colors underline underline-offset-4"
+                className="mt-2 text-[10px] text-rose-200/60 hover:text-white transition-colors underline underline-offset-4 relative z-50 pointer-events-auto"
               >
                 Relight / Replay
               </button>

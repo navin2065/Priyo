@@ -1,98 +1,68 @@
 import React, { useEffect, useState } from 'react';
 
 export default function CustomCursor() {
-  const [pos, setPos] = useState({ x: -100, y: -100 });
-  const [trailerPos, setTrailerPos] = useState({ x: -100, y: -100 });
-  const [isHovered, setIsHovered] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [hearts, setHearts] = useState([]);
 
   useEffect(() => {
-    // Only enable on desktop pointer devices
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      return;
-    }
+    // Global Heart Shadow Touch/Click Effect with Rodnoy (Instant on both mobile tap & desktop click)
+    const handleTouchOrClick = (e) => {
+      const clientX =
+        e.clientX !== undefined
+          ? e.clientX
+          : e.touches && e.touches[0]
+          ? e.touches[0].clientX
+          : window.innerWidth / 2;
+      const clientY =
+        e.clientY !== undefined
+          ? e.clientY
+          : e.touches && e.touches[0]
+          ? e.touches[0].clientY
+          : window.innerHeight / 2;
+      const id = Date.now() + Math.random();
 
-    const onMouseMove = (e) => {
-      setPos({ x: e.clientX, y: e.clientY });
-      setIsVisible(true);
+      setHearts((prev) => [...prev.slice(-6), { id, x: clientX, y: clientY }]);
+      setTimeout(() => {
+        setHearts((prev) => prev.filter((h) => h.id !== id));
+      }, 760);
     };
 
-    const onMouseLeave = () => setIsVisible(false);
-
-    const handleMouseOver = (e) => {
-      if (e.target.closest('button, a, input, textarea, [data-interactive="true"]')) {
-        setIsHovered(true);
-      } else {
-        setIsHovered(false);
-      }
-    };
-
-    window.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseleave', onMouseLeave);
-    window.addEventListener('mouseover', handleMouseOver);
+    window.addEventListener('pointerdown', handleTouchOrClick, { passive: true });
 
     return () => {
-      window.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseleave', onMouseLeave);
-      window.removeEventListener('mouseover', handleMouseOver);
+      window.removeEventListener('pointerdown', handleTouchOrClick);
     };
   }, []);
 
-  // Smooth trailing interpolation
-  useEffect(() => {
-    let animationFrame;
-    const animateTrailer = () => {
-      setTrailerPos((prev) => {
-        const dx = pos.x - prev.x;
-        const dy = pos.y - prev.y;
-        return {
-          x: prev.x + dx * 0.2,
-          y: prev.y + dy * 0.2,
-        };
-      });
-      animationFrame = requestAnimationFrame(animateTrailer);
-    };
-    animationFrame = requestAnimationFrame(animateTrailer);
-    return () => cancelAnimationFrame(animationFrame);
-  }, [pos]);
-
-  if (!isVisible) return null;
-
   return (
     <>
-      {/* Outer Smooth Trailing Ring with subtle Akka & Thambi pill */}
-      <div
-        className="fixed top-0 left-0 pointer-events-none z-[9999] transition-transform duration-75 ease-out select-none flex items-center gap-1.5"
-        style={{
-          transform: `translate3d(${trailerPos.x + 12}px, ${trailerPos.y + 12}px, 0)`,
-        }}
-      >
+      {/* Floating Ethereal Heart Shadow + Rodnoy Badge at Touch / Click Location (Blooms on click, then fades cleanly) */}
+      {hearts.map((h) => (
         <div
-          className={`flex items-center px-2 py-0.5 rounded-full border shadow-md backdrop-blur-md transition-all duration-200 ${
-            isHovered
-              ? 'bg-rose-900/90 border-rose-300/80 text-white scale-105'
-              : 'bg-black/60 border-amber-300/30 text-rose-200/90'
-          }`}
+          key={h.id}
+          style={{ left: h.x, top: h.y }}
+          className="fixed pointer-events-none z-[99999] select-none animate-heart-shadow flex flex-col items-center gap-1"
         >
-          <span className="text-[10px] font-semibold tracking-wider font-heading">
-            ✨ Queen Priyanga ✨
-          </span>
-        </div>
-      </div>
+          <div className="relative flex items-center justify-center">
+            {/* Soft Heart Glow Aura */}
+            <div className="absolute w-10 h-10 rounded-full bg-rose-500/25 blur-md pointer-events-none" />
 
-      {/* Main Focus Center Dot */}
-      <div
-        className="fixed top-0 left-0 pointer-events-none z-[9999]"
-        style={{
-          transform: `translate3d(${pos.x - 3}px, ${pos.y - 3}px, 0)`,
-        }}
-      >
-        <div
-          className={`w-1.5 h-1.5 rounded-full bg-amber-300 shadow-[0_0_8px_#fde047] transition-transform duration-100 ${
-            isHovered ? 'scale-150 bg-rose-300 shadow-[0_0_10px_#fda4af]' : 'scale-100'
-          }`}
-        />
-      </div>
+            {/* Glowing Heart Shadow Silhouette */}
+            <svg
+              viewBox="0 0 24 24"
+              className="w-7 h-7 fill-rose-500/35 stroke-rose-300/85 stroke-[1.5] filter drop-shadow-[0_0_12px_rgba(244,63,94,0.9)]"
+            >
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+          </div>
+
+          {/* Floating Rodnoy Text with Golden Sparkle Glow on Click */}
+          <div className="px-2 py-0.5 rounded-full bg-black/75 border border-amber-300/60 backdrop-blur-sm shadow-[0_4px_12px_rgba(0,0,0,0.7)] whitespace-nowrap">
+            <span className="text-[10px] sm:text-xs font-heading font-extrabold text-amber-200 tracking-wider">
+              ✨ Rodnoy ✨
+            </span>
+          </div>
+        </div>
+      ))}
     </>
   );
 }
